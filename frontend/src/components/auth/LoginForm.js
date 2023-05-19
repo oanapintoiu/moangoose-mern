@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './LoginForm.css';
+import successAudio from './audiofile.m4a';
 
 const LogInForm = ({ navigate }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,6 +20,7 @@ const LogInForm = ({ navigate }) => {
 
     if (response.status !== 201) {
       console.log("yay");
+      setErrorMessage("Email or password is incorrect, please try again."); 
       navigate("/login");
     } else {
       console.log("oop");
@@ -32,6 +35,10 @@ const LogInForm = ({ navigate }) => {
       cookieValue += "; path=/"; // Optional: set the cookie path
 
       document.cookie = cookieValue;
+
+      // Play audio on successful login
+      const audio = new Audio(successAudio);
+      audio.play();
 
       navigate("/posts");
     }
@@ -49,21 +56,22 @@ const LogInForm = ({ navigate }) => {
   return (
     <div className='login-container'>
       <form className='login-form' onSubmit={handleSubmit}>
-      <div className="form-header">
-      <p>Welcome to Moangoose, please login:</p>
-      </div>
-        <div className='form-input'>
-          <input placeholder='Email' id="email" type='text' value={ email } onChange={handleEmailChange} />
+        <div className="form-header">
+          <p>Welcome to Moangoose, please login:</p>
         </div>
         <div className='form-input'>
-          <input placeholder='Password' id="password" type='password' value={ password } onChange={handlePasswordChange} />
+          <input placeholder='Email' id="email" type='text' value={email} onChange={handleEmailChange} />
         </div>
+        <div className='form-input'>
+          <input placeholder='Password' id="password" type='password' value={password} onChange={handlePasswordChange} />
+        </div>
+        {errorMessage && <div className="error-message">{errorMessage}</div>} 
         <div className='login-button-container'>
-          <input className='login-button' role='submit-button' id='submit' type="submit" value="Submit" />
+          <input className='login-button' role='submit-button' id='submit' type="submit" value="Login" />
         </div>
       </form>
     </div>
-  );  
+  );
 }
 
 export default LogInForm;
