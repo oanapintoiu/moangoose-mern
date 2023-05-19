@@ -5,6 +5,7 @@ const Post = require('../../models/post');
 const User = require('../../models/user');
 const JWT = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
+const mongoose = require('mongoose');
 
 let token;
 let user;
@@ -262,4 +263,29 @@ describe("/posts", () => {
       expect(updatedPost.like).toEqual(0);
     });
   });
+
+  describe("POST, with non-existing user", () => {
+    test("responds with a 404 and User not found message", async () => {
+      // Generate a random ObjectId which is not present in database
+      let randomUserId = new mongoose.Types.ObjectId();
+  
+      // Create a new JWT with this user id
+      let nonExistingUserToken = JWT.sign({
+        user_id: randomUserId,
+        // Backdate this token of 5 minutes
+        iat: Math.floor(Date.now() / 1000) - (5 * 60),
+        // Set the JWT token to expire in 10 minutes
+        exp: Math.floor(Date.now() / 1000) + (10 * 60)
+      }, secret);
+  
+      let response = await request(app)
+        .post("/posts")
+        .set("Authorization", `Bearer ${nonExistingUserToken}`)
+        .send({ message: "hello world", token: nonExistingUserToken });
+  
+      expect(response.status).toEqual(404);
+      expect(response.body.message).toEqual('User not found');
+    });
+  });
+  
 });  
