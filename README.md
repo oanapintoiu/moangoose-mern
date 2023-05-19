@@ -178,6 +178,10 @@ npm install cookie-parser
 ```
 npm install moment --save
 ```
+For image upload functionality
+
+npm install multer
+```
 
 ### Start
 
