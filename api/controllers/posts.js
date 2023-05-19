@@ -52,6 +52,10 @@ const PostsController = {
       if (err) {
         throw err;
       }
+
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
   
       // Check if the user has already liked the post
       if (post.likedBy.includes(userId)) {

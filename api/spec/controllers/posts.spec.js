@@ -206,6 +206,18 @@ describe("/posts", () => {
         expect(response.status).toEqual(400);
         expect(response.body.message).toEqual("You've already liked this post.");
     });
+
+    test("returns an error when trying to like a non-existing post", async () => {
+      let nonExistingPostId = "5d9f1140f10a81216cfd4408";  // a non-existing ObjectId
+
+      let response = await request(app)
+          .post(`/posts/${nonExistingPostId}/likes`)
+          .set("Authorization", `Bearer ${token}`)
+          .send({ token: token });
+
+      expect(response.status).toEqual(404);
+      expect(response.body.message).toEqual("Post not found");
+    });
   });
 
   describe("POST /posts/:id/comments", () => {
