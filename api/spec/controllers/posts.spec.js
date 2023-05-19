@@ -7,11 +7,12 @@ const JWT = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 
 let token;
+let user;
 
 describe("/posts", () => {
   beforeAll( async () => {
-    const user = new User({email: "test@test.com", password: "12345678",  firstName: "Betty",
-    lastName: "Rubble" });
+    user = new User({email: "test@test.com", password: "12345678",  firstName: "Betty",
+    lastName: "Rubble" }); // Assign the created user to the user variable
     await user.save();
 
     token = JWT.sign({
@@ -229,6 +230,24 @@ describe("/posts", () => {
         comment: "This is a test comment", 
         author: { id: user._id.toString(), name: `${user.firstName} ${user.lastName}` } 
       });
+    });
+  });
+
+  describe("DELETE /posts/:id/likes", () => {
+    test("decreases the number of likes for a post by 1", async () => {
+      let post1 = new Post({message: "howdy!", like: 1, likedBy: [user._id]});
+      await post1.save();
+  
+      let response = await request(app)
+        .delete(`/posts/${post1._id}/likes`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({ token: token });
+  
+      expect(response.status).toEqual(201);
+      expect(response.body.post.like).toEqual(0);
+  
+      let updatedPost = await Post.findById(post1._id);
+      expect(updatedPost.like).toEqual(0);
     });
   });
 });  
