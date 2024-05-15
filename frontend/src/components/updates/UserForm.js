@@ -18,7 +18,7 @@ const UserForm = ({ navigate }) => {
     event.preventDefault();
 
     if (password !== "") {
-        setShowConfirmation(true);
+      setShowConfirmation(true);
     } else {
       submitForm();
     }
@@ -76,20 +76,21 @@ const UserForm = ({ navigate }) => {
 
   const handleIconUpdate = (event) => {
     setIcon(event.target.value);
+    setSelectedIcon(event.target.value);
   };
 
   const icons = [
-    { name: 'white', src: '../../white.png' },
-    { name: 'red', src: '../../red.png' },
-    { name: 'black', src: '../../black.png' },
-    { name: 'blue', src: '../../blue.png' },
-    { name: 'purple', src: '../../purple.png' },
-    { name: 'green', src: '../../green.png' },
+    { name: "white", src: "../../white.png" },
+    { name: "red", src: "../../red.png" },
+    { name: "black", src: "../../black.png" },
+    { name: "blue", src: "../../blue.png" },
+    { name: "purple", src: "../../purple.png" },
+    { name: "green", src: "../../green.png" },
   ];
 
   const handleConfirm = () => {
     if (confirmPassword === password) {
-        setShowConfirmation(false);
+      setShowConfirmation(false);
       setPasswordsMatchError(false); // Reset error state when passwords match
       submitForm();
     } else {
@@ -140,143 +141,155 @@ const UserForm = ({ navigate }) => {
   }, [showPopup]);
 
   return (
-    <div className='update-container'>
-    <form className="update-form" onSubmit={handleSubmit}>
-      <div className="form-header">
-        <p>Update your details here:</p>
-      </div>
+    <div className="update-container">
+      <form className="update-form" onSubmit={handleSubmit}>
+        <div className="form-header">
+          <p>Update your details here:</p>
+        </div>
 
-      <div className="form-group">
-        <div className="aligned-credentials">
-          <div className="email-box-space">
-            <input
-              placeholder="Email"
-              id="email"
-              type="text"
-              value={email}
-              onChange={handleEmailUpdate}
-            />
-          </div>
-          <div className="password-box-space">
-            <input
-              placeholder="Password"
-              id="password"
-              type="password"
-              value={password}
-              onChange={handlePasswordUpdate}
-            />
+        <div className="form-group">
+          <div className="aligned-credentials">
+            <div className="email-box-space">
+              <input
+                placeholder="Email"
+                id="email"
+                type="text"
+                value={email}
+                onChange={handleEmailUpdate}
+              />
+            </div>
+            <div className="password-box-space">
+              <input
+                placeholder="Password"
+                id="password"
+                type="password"
+                value={password}
+                onChange={handlePasswordUpdate}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="form-group">
-        <div className="aligned-names">
-          <div className="first-name-box-space">
-            <input
-              placeholder="First Name"
-              id="firstName"
-              type="text"
-              value={firstName}
-              onChange={handleFirstNameUpdate}
-            />
+        <div className="form-group">
+          <div className="aligned-names">
+            <div className="first-name-box-space">
+              <input
+                placeholder="First Name"
+                id="firstName"
+                type="text"
+                value={firstName}
+                onChange={handleFirstNameUpdate}
+              />
+            </div>
+            <div className="last-name-box-space">
+              <input
+                placeholder="Last Name"
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={handleLastNameUpdate}
+              />
+            </div>
           </div>
-          <div className="last-name-box-space">
-            <input
-              placeholder="Last Name"
-              id="lastName"
-              type="text"
-              value={lastName}
-              onChange={handleLastNameUpdate}
-            />
-          </div>
-        </div>
-          
+
           <div className="icon-grid">
             <div className="icon-container">
               {icons.map((icon) => (
-              <div key={icon.name} className="icon-item">
-                <input
-                  type="radio"
-                  id={icon.name}
-                  name={icon.name}
-                  value={icon.name}
-                  checked={selectedIcon === icon.name}
-                  onChange={handleIconUpdate}
-                />
+                <div key={icon.name} className="icon-item">
+                  <input
+                    checked={selectedIcon === icon.name}
+                    type="radio"
+                    id={icon.name}
+                    name={icon.name}
+                    value={icon.name}
+                    onChange={handleIconUpdate}
+                  />
 
-                <label htmlFor={icon.name}>
-                  <img src={icon.src} alt={icon.name} width="75" height="75" />
-                </label>
-
-              </div>
-            ))}
+                  <label htmlFor={icon.name}>
+                    <img
+                      src={icon.src}
+                      alt={icon.name}
+                      width="75"
+                      height="75"
+                    />
+                  </label>
+                </div>
+              ))}
             </div>
-          
+          </div>
         </div>
-      </div>
 
-      <div className="form-group">
-        <input className="submit-button" id="submit" type="submit" value="Submit changes" />
-      </div>
-
-      <div className="form-group">
-        <button className="delete-button" type="button" onClick={handleDelete}>
-          Delete Account
-        </button>
-      </div>
-
-      {successMessage && (
-        <div
-          className={`success-message ${
-            successMessage.includes("failed") ? "error" : "ok"
-          }`}
-        >
-          {successMessage}
+        <div className="form-group">
+          <input
+            className="submit-button"
+            id="submit"
+            type="submit"
+            value="Submit changes"
+          />
         </div>
-      )}
 
-      {showPopup && (
-        <div id="popup" className="popup">
-          <div className="popup-content">
-            <h2>Confirmation</h2>
-            <p>Are you sure you want to delete your account?</p>
-            <div className="popup-buttons">
-              <button id="popup-ok" onClick={handlePopupOK}>
-                OK
+        <div className="form-group">
+          <button
+            className="delete-button"
+            type="button"
+            onClick={handleDelete}
+          >
+            Delete Account
+          </button>
+        </div>
+
+        {successMessage && (
+          <div
+            className={`success-message ${
+              successMessage.includes("failed") ? "error" : "ok"
+            }`}
+          >
+            {successMessage}
+          </div>
+        )}
+
+        {showPopup && (
+          <div id="popup" className="popup">
+            <div className="popup-content">
+              <h2>Confirmation</h2>
+              <p>Are you sure you want to delete your account?</p>
+              <div className="popup-buttons">
+                <button id="popup-ok" onClick={handlePopupOK}>
+                  OK
+                </button>
+                <button id="popup-cancel" onClick={handlePopupCancel}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showConfirmation && (
+          <div className="confirmation-popup">
+            <input
+              placeholder="Confirm Password"
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className={passwordsMatchError ? "error" : ""}
+            />
+            {passwordsMatchError && (
+              <p className="error-message">Passwords don't match</p>
+            )}
+            <div className="confirmation-buttons">
+              <button type="button" onClick={handleConfirm}>
+                Confirm
               </button>
-              <button id="popup-cancel" onClick={handlePopupCancel}>
+              <button type="button" onClick={handleCancel}>
                 Cancel
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-{showConfirmation && (
-      <div className="confirmation-popup">
-        <input
-          placeholder="Confirm Password"
-          id="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          className={passwordsMatchError ? "error" : ""}
-        />
-        {passwordsMatchError && (
-          <p className="error-message">Passwords don't match</p>
         )}
-        <div className="confirmation-buttons">
-          <button type="button" onClick={handleConfirm}>
-            Confirm
-          </button>
-          <button type="button" onClick={handleCancel}>
-            Cancel
-          </button>
-        </div>
-      </div>
-      )}
-    </form>
+      </form>
     </div>
   );
 };
