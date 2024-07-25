@@ -139,7 +139,7 @@ npm install cookie-parser
 npm install moment --save
 ```
 For image upload functionality
-
+```
 npm install multer
 ```
 
@@ -175,14 +175,14 @@ After logging in, you won't see much but you can create posts using PostMan and 
 
 **Note the use of an environment variable for the JWT secret**
 
-  Start the server in test mode (so that it connects to the test DB)
+1. Start the server in test mode (so that it connects to the test DB)
 
   ```
   ; cd api
   ; JWT_SECRET=SUPER_SECRET npm run start:test
   ```
 
-  Then run the tests in a new terminal session
+2. Then run the tests in a new terminal session
 
   ```
   ; cd api
@@ -193,21 +193,21 @@ After logging in, you won't see much but you can create posts using PostMan and 
 
 **Note the use of an environment variable for the JWT secret**
 
-  Start the server in test mode (so that it connects to the test DB)
+1. Start the server in test mode (so that it connects to the test DB)
 
   ```
   ; cd api
   ; JWT_SECRET=SUPER_SECRET npm run start:test
   ```
 
-  Then start the front end in a new terminal session
+2. Then start the front end in a new terminal session
 
   ```
   ; cd frontend
   ; JWT_SECRET=SUPER_SECRET npm start
   ```
 
-  Then run the tests in a new terminal session
+3. Then run the tests in a new terminal session
 
   ```
   ; cd frontend
